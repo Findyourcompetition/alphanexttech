@@ -1,12 +1,34 @@
+'use client';
+
+import Footer from '@/components/footer/page';
 import {
+  countryCodes,
   csUseCases,
   marketingUseCases,
   operationsUseCases,
+  packages,
 } from '@/utils/data';
 import Image from 'next/image';
+import { useState } from 'react';
 import { MdOutlineKeyboardArrowUp } from 'react-icons/md';
 
+type CountryCode = {
+  flag: string;
+  code: string;
+  country: string;
+};
 const Home = () => {
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [selectedCountry, setSelectedCountry] = useState<CountryCode>(
+    countryCodes[0]
+  );
+  const [isActive, setIsActive] = useState(false);
+
+  const handleCountrySelect = (country: CountryCode) => {
+    setSelectedCountry(country);
+    setShowDropdown(false);
+  };
+
   return (
     <div className='bg-[#F4EFEE] w-full h-full'>
       <div className='p-5 sm:px-16'>
@@ -36,37 +58,88 @@ const Home = () => {
         </div>
         <div className='w-full h-[180px] relative'>
           <Image
-            src='/images/image2.png'
+            src='/images/image1.png'
             alt='image1'
             layout='fill'
             className='w-full h-[180px]'
           />
         </div>
 
-        <div className='w-full flex flex-col items-center justify-center py-16'>
-          <div className='bg-[#E8E5E5] w-full sm:w-[684px] h-[66px] rounded-[16px] flex py-4 pl-6 text-lg font-medium items-center '>
-            <div className='bg-[#CBCBCB] flex gap-1 rounded-lg items-center p-1 cursor-pointer '>
-              <Image
-                src={'/images/emirates-flag.png'}
-                alt='flag'
-                width={35}
-                height={24}
-                className=''
+        <div className='w-full flex flex-col items-center justify-center py-1 '>
+          <div className='relative'>
+            <div className='bg-[#E8E5E5] w-full sm:w-[684px] h-[66px] rounded-[16px] flex py-4 pl-6 text-lg font-medium items-center '>
+              <div
+                onClick={() => {
+                  setShowDropdown(!showDropdown);
+                  setIsActive(!isActive);
+                }}
+                className={`flex gap-1 rounded-lg items-center p-1 cursor-pointer transition-colors duration-200 w-[118px] ${
+                  isActive ? 'bg-[#CBCBCB]' : ''
+                }`}
+              >
+                <Image
+                  src={selectedCountry.flag}
+                  alt={`${selectedCountry.country} flag`}
+                  width={35}
+                  height={24}
+                  className='object-cover'
+                />
+                <p className='truncate'>{selectedCountry.code}</p>
+                <MdOutlineKeyboardArrowUp size={24} />
+              </div>
+              <input
+                type='tel'
+                placeholder='Enter your phone number'
+                className='outline-none w-[342px] h-[26px] bg-transparent pl-1'
               />
-              <p>+971</p>
-              <MdOutlineKeyboardArrowUp size={24} />
+
+              <button className='w-[200px] h-[58px] bg-[#BC5238] rounded-[16px] text-[#F4EFEE] button-shadow'>
+                Request a call
+              </button>
             </div>
-            <input
-              type='tel'
-              placeholder='Enter your phone number'
-              className='outline-none w-[342px] h-[26px] bg-transparent pl-1'
-            />
+            {showDropdown && (
+              <div className=' absolute bg-[#E8E5E5] p-4 rounded-[16px] w-[330px] mt-2 z-10'>
+                {countryCodes.map((item, index) => (
+                  <div
+                    key={index}
+                    onClick={() => {
+                      handleCountrySelect(item);
+                      setIsActive(false);
+                    }}
+                    className={`cursor-pointer grid grid-cols-10 ${
+                      index === 0
+                        ? 'pb-3'
+                        : index === countryCodes.length - 1
+                        ? 'pt-3'
+                        : 'py-3'
+                    } ${
+                      index !== countryCodes.length - 1
+                        ? 'border-b border-b-[#CFCFCF]'
+                        : ''
+                    }`}
+                  >
+                    <div className=' col-span-3 flex items-center gap-1 mr-5'>
+                      <div className='w-[35px] h-[24px]'>
+                        <Image
+                          src={item.flag}
+                          alt={`${item.country} flag`}
+                          width={35}
+                          height={24}
+                          className='object-cover'
+                        />
+                      </div>
 
-            <button className='w-[200px] h-[58px] bg-[#BC5238] rounded-[16px] text-[#F4EFEE] button-shadow'>
-              Request a call
-            </button>
+                      <p className=''>{item.code}</p>
+                    </div>
+
+                    <div className='col-span-7 flex items-center'>
+                      {item.country}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
-
           <div className='max-w-[900px] pt-16'>
             <p className='text-5xl text-center'>
               We{' '}
@@ -148,43 +221,94 @@ const Home = () => {
                 </div>
               </div>
               <div className='text-[#F4EEEE]'>
-                <div className='bg-[#566955] rounded-[30.16px] pt-6 pl-6'>
-                  <h3 className='text-4xl font-bold pr-6'>Customer Support</h3>
-                  {csUseCases.map((item, index) => (
-                    <div key={index} className='flex gap-1 mt-3 pr-6'>
-                      <Image
-                        src={'/images/check-circle.svg'}
-                        alt='check'
-                        width={16}
-                        height={16}
-                      />
-                      <p>{item}</p>
-                    </div>
-                  ))}
+                <div className='bg-[#566955] rounded-[30.16px] pt-6 pl-6 flex w-full'>
+                  <div>
+                    <h3 className='text-4xl font-bold pr-6'>
+                      Customer Support
+                    </h3>
+                    {csUseCases.map((item, index) => (
+                      <div key={index} className='flex gap-1 mt-3 pr-6'>
+                        <Image
+                          src={'/images/check-circle.svg'}
+                          alt='check'
+                          width={16}
+                          height={16}
+                        />
+                        <p>{item}</p>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className=''>
+                    <Image
+                      src={'/images/image3.png'}
+                      alt='cellphone'
+                      width={250}
+                      height={250}
+                    />
+                  </div>
                 </div>
+
                 <div className='bg-[#2C3D37] rounded-[30.16px] pt-6 pl-6 mt-5'>
                   <h3 className='text-4xl font-bold pr-6'>
                     Operations & Logistics
                   </h3>
-                  {operationsUseCases.map((item, index) => (
-                    <div key={index} className='flex gap-1 mt-3 pr-6'>
-                      <Image
-                        src={'/images/check-circle.svg'}
-                        alt='check'
-                        width={16}
-                        height={16}
-                      />
-                      <p>{item}</p>
+                  <div className='flex w-full'>
+                    <div>
+                      {operationsUseCases.map((item, index) => (
+                        <div key={index} className='flex gap-1 mt-3 pr-6'>
+                          <Image
+                            src={'/images/check-circle.svg'}
+                            alt='check'
+                            width={16}
+                            height={16}
+                          />
+                          <p>{item}</p>
+                        </div>
+                      ))}
                     </div>
-                  ))}
+
+                    <div className='mt-5'>
+                      <Image
+                        src={'/images/image4.png'}
+                        alt='cellphone'
+                        width={250}
+                        height={250}
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
+        </div>
+        <div className='grid grid-cols-2 p-5 sm:px-16'>
+          <div>
+            <h3 className='font-bold text-5xl  '>
+              What&apos;s <br /> Included
+            </h3>
+          </div>
 
-          <div></div>
+          <div>
+            {packages.map((item, index) => (
+              <div
+                key={index}
+                className={`pb-6 ${
+                  index === 1
+                    ? 'border-y border-y-[#2C3D37] pt-6'
+                    : index === 2
+                    ? 'pt-6'
+                    : ''
+                }`}
+              >
+                <Image src={item.icon} alt='icon' width={32} height={32} />
+                <p className='mt-4'>{item.title}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </main>
+      <Footer />
     </div>
   );
 };
