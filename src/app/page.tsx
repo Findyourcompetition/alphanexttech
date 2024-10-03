@@ -1,6 +1,7 @@
 'use client';
 
 import Footer from '@/components/footer/page';
+import RequestCallModal from '@/components/request-call-modal/page';
 import {
   countryCodes,
   csUseCases,
@@ -23,7 +24,7 @@ const Home = () => {
     countryCodes[0]
   );
   const [isActive, setIsActive] = useState(false);
-
+  const [showRequestCallModal, setShowRequestCallModal] = useState(false);
   const handleCountrySelect = (country: CountryCode) => {
     setSelectedCountry(country);
     setShowDropdown(false);
@@ -43,7 +44,7 @@ const Home = () => {
 
       <main>
         <div className='flex flex-col items-center justify-center mt-16 p-5 sm:px-16'>
-          <h1 className='helvetica font-bold text-6xl max-w-[800px] text-center'>
+          <h1 className='helvetica font-bold text-3xl leading-[32.2px] sm:text-6xl sm:leading-[82.79px] max-w-[800px] text-center'>
             Never Miss a Customer&apos;s Call Again
           </h1>
 
@@ -56,18 +57,18 @@ const Home = () => {
             But you be the judge of that and try it for yourself (for free)
           </p>
         </div>
-        <div className='w-full h-[180px] relative'>
+        <div className='w-full h-[180px] relative mt-10 mb-16'>
           <Image
             src='/images/image1.png'
             alt='image1'
             layout='fill'
-            className='w-full h-[180px]'
+            className='w-full h-[180px] '
           />
         </div>
 
         <div className='w-full flex flex-col items-center justify-center py-1 '>
-          <div className='relative'>
-            <div className='bg-[#E8E5E5] w-full sm:w-[684px] h-[66px] rounded-[16px] flex py-4 pl-6 text-lg font-medium items-center '>
+          <div className='relative px-5 md:px-16'>
+            <div className='bg-[#E8E5E5] w-[93vw] md:w-[684px] h-[66px] rounded-[16px] flex py-4 pl-6 text-lg font-medium items-center '>
               <div
                 onClick={() => {
                   setShowDropdown(!showDropdown);
@@ -84,19 +85,23 @@ const Home = () => {
                   height={24}
                   className='object-cover'
                 />
-                <p className='truncate'>{selectedCountry.code}</p>
+                <p className=''>{selectedCountry.code}</p>
                 <MdOutlineKeyboardArrowUp size={24} />
               </div>
               <input
                 type='tel'
                 placeholder='Enter your phone number'
-                className='outline-none w-[342px] h-[26px] bg-transparent pl-1'
+                className='outline-none w-full md:w-[342px] h-[26px] bg-transparent pl-1 pr-5'
               />
 
-              <button className='w-[200px] h-[58px] bg-[#BC5238] rounded-[16px] text-[#F4EFEE] button-shadow'>
+              <button
+                onClick={() => setShowRequestCallModal(true)}
+                className='w-[200px] h-[58px] bg-[#BC5238] rounded-[16px] text-[#F4EFEE] button-shadow hidden md:flex items-center justify-center'
+              >
                 Request a call
               </button>
             </div>
+
             {showDropdown && (
               <div className=' absolute bg-[#E8E5E5] p-4 rounded-[16px] w-[330px] mt-2 z-10'>
                 {countryCodes.map((item, index) => (
@@ -139,9 +144,17 @@ const Home = () => {
                 ))}
               </div>
             )}
+            <div className='flex justify-center'>
+              <button
+                onClick={() => setShowRequestCallModal(true)}
+                className='w-[200px] h-[58px] bg-[#BC5238] rounded-[16px] text-[#F4EFEE] button-shadow md:hidden mt-6'
+              >
+                Request a call
+              </button>
+            </div>
           </div>
-          <div className='max-w-[900px] pt-16'>
-            <p className='text-5xl text-center'>
+          <div className='max-w-[900px] mt-[150px] px-5 sm:px-16'>
+            <p className=' text-xl sm:text-5xl text-center'>
               We{' '}
               <span className='font-bold text-[#BC5238]'>
                 build and manage AI-agents
@@ -150,53 +163,55 @@ const Home = () => {
               time.
             </p>
 
-            <div className='flex justify-center py-14'>
+            <div className='flex justify-center py-14 items-center'>
               <Image
                 src={'/images/avatar1.png'}
                 alt='avatar'
                 width={100}
                 height={100}
-                className='object-cover'
+                className='object-cover w-[40px] h-[40px] sm:w-[100px] sm:h-[100px]'
               />
               <Image
                 src={'/images/avatar2.png'}
                 alt='avatar'
                 width={100}
                 height={100}
-                className='object-cover ml-[-30px]'
+                className='object-cover sm:ml-[-30px] ml-[-15px] w-[50px] h-[50px] sm:w-[100px] sm:h-[100px]'
               />
               <Image
                 src={'/images/avatar3.png'}
                 alt='avatar'
                 width={100}
                 height={100}
-                className='object-cover ml-[-30px]'
+                className='object-cover sm:ml-[-30px] ml-[-15px] w-[60px] h-[60px] sm:w-[100px] sm:h-[100px]'
               />
               <Image
                 src={'/images/avatar4.png '}
                 alt='avatar'
                 width={100}
                 height={100}
-                className='object-cover ml-[-30px]'
+                className='object-cover sm:ml-[-30px] ml-[-15px] w-[50px] h-[50px] sm:w-[100px] sm:h-[100px]'
               />
               <Image
                 src={'/images/avatar5.png'}
                 alt='avatar'
                 width={100}
                 height={100}
-                className='object-cover ml-[-30px]'
+                className='object-cover sm:ml-[-30px] ml-[-15px] w-[40px] h-[40px] sm:w-[100px] sm:h-[100px]'
               />
             </div>
           </div>
-          <p className='text-3xl font-medium text-center mb-14'>
+          <p className='text-[16px] sm:text-3xl font-medium text-center mb-16'>
             Tailored to your business, with human-like voices and multilingual
             capabilities.
           </p>
 
-          <div className='bg-[#E8E5E5A3] px-5 py-12 sm:px-16 w-full '>
-            <h3 className='font-bold text-4xl text-center'>Use Cases</h3>
+          <div className='bg-[#E8E5E5A3] px-5 py-16 sm:px-16 w-full '>
+            <h3 className='font-bold text-2xl sm:text-4xl sm:text-center text-[#2C3D37]'>
+              Use Cases
+            </h3>
 
-            <div className='flex gap-5 justify-center mt-10'>
+            <div className='flex flex-col usecase_arrange gap-5 justify-center mt-10'>
               <div className='bg-[#A5A88F] rounded-[30.16px] pt-6 pl-6 text-[#F4EEEE]'>
                 <h3 className='text-4xl font-bold pr-6'>Marketing & Sales</h3>
                 {marketingUseCases.map((item, index) => (
@@ -211,17 +226,18 @@ const Home = () => {
                   </div>
                 ))}
 
-                <div className='w-full flex justify-end'>
+                <div className='w-full flex justify-end items-end pt-6'>
                   <Image
                     src={'/images/image2.png'}
                     alt='cellphone'
                     width={400}
                     height={400}
+                    className=' '
                   />
                 </div>
               </div>
               <div className='text-[#F4EEEE]'>
-                <div className='bg-[#566955] rounded-[30.16px] pt-6 pl-6 flex w-full'>
+                <div className='bg-[#566955] rounded-[30.16px] pt-6 pl-6 flex flex-col usecase_arrange w-full'>
                   <div>
                     <h3 className='text-4xl font-bold pr-6'>
                       Customer Support
@@ -239,7 +255,7 @@ const Home = () => {
                     ))}
                   </div>
 
-                  <div className=''>
+                  <div className='w-full flex justify-end'>
                     <Image
                       src={'/images/image3.png'}
                       alt='cellphone'
@@ -253,7 +269,7 @@ const Home = () => {
                   <h3 className='text-4xl font-bold pr-6'>
                     Operations & Logistics
                   </h3>
-                  <div className='flex w-full'>
+                  <div className='flex flex-col usecase_arrange w-full'>
                     <div>
                       {operationsUseCases.map((item, index) => (
                         <div key={index} className='flex gap-1 mt-3 pr-6'>
@@ -268,7 +284,7 @@ const Home = () => {
                       ))}
                     </div>
 
-                    <div className='mt-5'>
+                    <div className='mt-5 w-full flex justify-end'>
                       <Image
                         src={'/images/image4.png'}
                         alt='cellphone'
@@ -282,14 +298,14 @@ const Home = () => {
             </div>
           </div>
         </div>
-        <div className='grid grid-cols-2 p-5 sm:px-16'>
+        <div className='grid grid-cols-1 sm:grid-cols-2 p-5 sm:p-16 my-10'>
           <div>
-            <h3 className='font-bold text-5xl  '>
-              What&apos;s <br /> Included
+            <h3 className='font-bold text-xl sm:text-5xl text-[#2C3D37] '>
+              What&apos;s <br className='hidden sm:flex' /> Included
             </h3>
           </div>
 
-          <div>
+          <div className='mt-7 sm:mt-0'>
             {packages.map((item, index) => (
               <div
                 key={index}
@@ -309,6 +325,12 @@ const Home = () => {
         </div>
       </main>
       <Footer />
+      {showRequestCallModal && (
+        <RequestCallModal
+          show={showRequestCallModal}
+          onClose={() => setShowRequestCallModal(false)}
+        />
+      )}
     </div>
   );
 };
