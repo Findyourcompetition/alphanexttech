@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 //import localFont from 'next/font/local';
 import './globals.css';
 import { DM_Sans } from 'next/font/google';
+import { ToastContainer } from 'react-toastify';
 
 const DmSans = DM_Sans({
   subsets: ['latin'],
@@ -28,6 +29,17 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className={`${DmSans.variable} antialiased`}>{children}</body>
+      <ToastContainer
+        position='top-right'
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </html>
   );
 }

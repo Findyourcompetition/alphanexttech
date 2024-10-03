@@ -18,6 +18,7 @@ type CountryCode = {
   code: string;
   country: string;
 };
+
 const Home = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState<CountryCode>(
@@ -25,9 +26,28 @@ const Home = () => {
   );
   const [isActive, setIsActive] = useState(false);
   const [showRequestCallModal, setShowRequestCallModal] = useState(false);
+  const [showErrorMessage, setShowErrorMessage] = useState(false);
+  const [phoneNumber, setPhoneNumber] = useState('');
   const handleCountrySelect = (country: CountryCode) => {
     setSelectedCountry(country);
     setShowDropdown(false);
+  };
+
+  const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setPhoneNumber(value);
+
+    if (value.trim() !== '') {
+      setShowErrorMessage(false);
+    }
+  };
+  const handleRequestCall = () => {
+    if (phoneNumber.trim() === '') {
+      setShowErrorMessage(true);
+    } else {
+      setShowRequestCallModal(true);
+      setShowErrorMessage(false);
+    }
   };
 
   return (
@@ -57,12 +77,13 @@ const Home = () => {
             But you be the judge of that and try it for yourself (for free)
           </p>
         </div>
-        <div className='w-full h-[180px] relative mt-10 mb-16'>
+
+        <div className='w-full h-[180px] relative mt-10 mb-16 overflow-hidden'>
           <Image
             src='/images/image1.png'
             alt='image1'
             layout='fill'
-            className='w-full h-[180px] '
+            className='w-full h-[180px] waveImage '
           />
         </div>
 
@@ -90,17 +111,24 @@ const Home = () => {
               </div>
               <input
                 type='tel'
+                value={phoneNumber}
+                onChange={handlePhoneNumberChange}
                 placeholder='Enter your phone number'
                 className='outline-none w-full md:w-[342px] h-[26px] bg-transparent pl-1 pr-5'
               />
 
               <button
-                onClick={() => setShowRequestCallModal(true)}
+                onClick={handleRequestCall}
                 className='w-[200px] h-[58px] bg-[#BC5238] rounded-[16px] text-[#F4EFEE] button-shadow hidden md:flex items-center justify-center'
               >
                 Request a call
               </button>
             </div>
+            {showErrorMessage && (
+              <p className='text-red-600 text-center text-xs mt-2'>
+                Please enter a valid phone number
+              </p>
+            )}
 
             {showDropdown && (
               <div className=' absolute bg-[#E8E5E5] p-4 rounded-[16px] w-[330px] mt-2 z-10'>
@@ -146,7 +174,7 @@ const Home = () => {
             )}
             <div className='flex justify-center'>
               <button
-                onClick={() => setShowRequestCallModal(true)}
+                onClick={handleRequestCall}
                 className='w-[200px] h-[58px] bg-[#BC5238] rounded-[16px] text-[#F4EFEE] button-shadow md:hidden mt-6'
               >
                 Request a call
@@ -329,6 +357,8 @@ const Home = () => {
         <RequestCallModal
           show={showRequestCallModal}
           onClose={() => setShowRequestCallModal(false)}
+          phoneNumber={phoneNumber}
+          countryCode={selectedCountry.code}
         />
       )}
     </div>

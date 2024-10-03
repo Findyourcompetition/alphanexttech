@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 @import url('/fonts/helvetica/fonts.css');
+@import 'react-toastify/dist/ReactToastify.css';
 
 .helvetica {
   font-family: 'Helvetica';
@@ -45,4 +46,28 @@ body {
   .usecase_arrange {
     flex-direction: row;
   }
+}
+/* Toast styles */
+
+.Toastify__toast-theme--light {
+  background-color: #f4efee;
+  border-radius: 16px;
+  border: 0.5px;
+  z-index: 999;
+  box-shadow: 0px -3px 1px 0px rgba(150, 54, 31, 1) inset,
+    0px 7px 13px -3px rgba(150, 54, 31, 0.3),
+    0px 2px 4px 0px rgba(150, 54, 31, 0.25);
+}
+
+.Toastify__toast-body > div:last-child {
+  color: #bc5238;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.Toastify__progress-bar--success {
+  background-color: #bc5238;
+}
+/* Custom Toastify styles */
+.Toastify__toast--success svg {
+  fill: #bc5238 !important;
 }
