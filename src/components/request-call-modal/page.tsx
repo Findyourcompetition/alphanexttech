@@ -19,8 +19,7 @@ type FormData = {
   countryCode: string;
 };
 
-const GOOGLE_SHEETS_URL =
-  'https://docs.google.com/spreadsheets/d/1y3anfChdnc2oX3oV7CeMb44xnn8t4tReogOm62tiy5I/edit?gid=0#gid=0';
+const GOOGLE_SHEETS_URL = process.env.NEXT_PUBLIC_GOOGLE_SHEETS_URL!;
 
 const RequestCallModal = ({
   onClose,
@@ -41,33 +40,39 @@ const RequestCallModal = ({
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const handleSubmit = async () => {
+  const disableSubmit = !formData.name || !formData.email || loading;
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     if (!formData.name || !formData.email) return;
     setLoading(true);
+
+    const fullPhoneNumber = `${
+      formData.countryCode
+    }${formData.phoneNumber.replace(/\D/g, '')}`;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { countryCode: _, ...dataWithoutCountryCode } = formData;
+
+    const payload = {
+      ...dataWithoutCountryCode,
+      phoneNumber: fullPhoneNumber,
+    };
+    const params = new URLSearchParams(payload);
     try {
-      const fullPhoneNumber = `${
-        formData.countryCode
-      }${formData.phoneNumber.replace(/\D/g, '')}`;
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { countryCode: _, ...dataWithoutCountryCode } = formData;
-
-      const payload = {
-        ...dataWithoutCountryCode,
-        phoneNumber: fullPhoneNumber,
-      };
-
       const response = await fetch(GOOGLE_SHEETS_URL, {
         method: 'POST',
-        body: JSON.stringify(payload),
+        body: params,
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
         },
       });
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
+      const result = await response.json();
+      console.log(result, 'response');
+      if (result.result === 'success') {
+        toast.success('Your details have been submitted successfully');
+        onClose();
+      } else {
+        toast.error('Failed to submit your details');
       }
-      toast.success('Your details have been submitted successfully');
-      onClose();
     } catch (error) {
       console.error('Error submitting your email', error);
     } finally {
@@ -80,7 +85,10 @@ const RequestCallModal = ({
       isOpen={show}
       contentClassName='w-[85vw] md:w-[728px] md:h-[559px] p-6 flex flex-col items-center'
     >
-      <div className='flex flex-col items-center max-w-[500px]'>
+      <form
+        onSubmit={handleSubmit}
+        className='flex flex-col items-center max-w-[500px]'
+      >
         <h2 className='text-lg sm:text-2xl font-bold text-center'>
           Enter your details, and our AI agent will give you a call within five
           minutes.
@@ -88,6 +96,7 @@ const RequestCallModal = ({
         <input
           type='text'
           name='name'
+          required
           value={formData.name}
           onChange={handleInputChange}
           placeholder='Enter your name'
@@ -96,6 +105,7 @@ const RequestCallModal = ({
         <input
           type='email'
           name='email'
+          required
           value={formData.email}
           onChange={handleInputChange}
           placeholder='Enter your email'
@@ -104,9 +114,11 @@ const RequestCallModal = ({
 
         <div className='flex flex-col text-xl items-center font-medium mt-10'>
           <button
-            disabled={!formData.name || !formData.email || loading}
-            onClick={handleSubmit}
-            className='w-[300px] h-[58px] bg-[#BC5238] rounded-[16px] text-[#F4EFEE] button-shadow flex items-center justify-center gap-1 disabled:cursor-not-allowed'
+            type='submit'
+            disabled={disableSubmit}
+            className={` ${
+              disableSubmit ? 'cursor-not-allowed opacity-70' : ''
+            } w-[300px] h-[58px] bg-[#BC5238] rounded-[16px] text-[#F4EFEE] button-shadow flex items-center justify-center gap-1 `}
           >
             <Image src={'/images/cell.svg'} alt='cell' width={20} height={20} />
             <p>{loading ? 'Loading...' : 'Call me'}</p>
@@ -118,7 +130,7 @@ const RequestCallModal = ({
             Go back
           </button>
         </div>
-      </div>
+      </form>
     </LocalModal>
   );
 };

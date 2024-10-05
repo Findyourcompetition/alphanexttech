@@ -28,7 +28,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body className={`${DmSans.variable} antialiased`}>{children}</body>
+      <body className={`${DmSans.variable} antialiased font-[helvetica]`}>
+        {children}
+      </body>
       <ToastContainer
         position='top-right'
         autoClose={3000}

@@ -64,27 +64,27 @@ const Home = () => {
 
       <main>
         <div className='flex flex-col items-center justify-center mt-16 p-5 sm:px-16'>
-          <h1 className='helvetica font-bold text-3xl leading-[32.2px] sm:text-6xl sm:leading-[82.79px] max-w-[800px] text-center'>
+          <div className=' mb-5'>
+            <Image
+              src={'/images/image5.png'}
+              alt='call'
+              width={328}
+              height={51}
+              className=''
+            />
+          </div>
+          <h1 className='helvetica font-bold text-3xl leading-[32.2px] sm:text-5xl max-w-[800px] text-center'>
             Never Miss a Customer&apos;s Call Again
           </h1>
-
-          <p className='text-[#1E1E1E] text-lg text-center max-w-[640px] mt-10'>
-            You probably think this is a waste of your time & AI can&apos;t
-            understand and respond to your customers properly.
-          </p>
-
-          <p className='text-[#1E1E1E] text-lg text-center mt-2 mb-10'>
-            But you be the judge of that and try it for yourself (for free)
-          </p>
-        </div>
-
-        <div className='w-full h-[180px] relative mt-10 mb-16 overflow-hidden'>
-          <Image
-            src='/images/image1.png'
-            alt='image1'
-            layout='fill'
-            className='w-full h-[180px] waveImage '
-          />
+          <div className='mt-14 mb-10'>
+            <Image
+              src={'/images/iphone.png'}
+              alt='iphone'
+              width={430}
+              height={877}
+              className=''
+            />
+          </div>
         </div>
 
         <div className='w-full flex flex-col items-center justify-center py-1 '>
@@ -182,9 +182,9 @@ const Home = () => {
             </div>
           </div>
           <div className='max-w-[900px] mt-[150px] px-5 sm:px-16'>
-            <p className=' text-xl sm:text-5xl text-center'>
+            <p className=' text-xl sm:text-4xl text-center'>
               We{' '}
-              <span className='font-bold text-[#BC5238]'>
+              <span className='font-bold text-[#BC5238] italic'>
                 build and manage AI-agents
               </span>{' '}
               that can handle over 1,000 incoming & outgoing calls at the same
@@ -229,7 +229,7 @@ const Home = () => {
               />
             </div>
           </div>
-          <p className='text-[16px] sm:text-3xl font-medium text-center mb-16'>
+          <p className='text-[16px] sm:text-3xl font-medium text-center mb-16 dm-sans'>
             Tailored to your business, with human-like voices and multilingual
             capabilities.
           </p>
@@ -241,7 +241,9 @@ const Home = () => {
 
             <div className='flex flex-col usecase_arrange gap-5 justify-center mt-10'>
               <div className='bg-[#A5A88F] rounded-[30.16px] pt-6 pl-6 text-[#F4EEEE]'>
-                <h3 className='text-4xl font-bold pr-6'>Marketing & Sales</h3>
+                <h3 className='text-2xl sm:text-3xl font-bold pr-6'>
+                  Marketing & Sales
+                </h3>
                 {marketingUseCases.map((item, index) => (
                   <div key={index} className='flex gap-1 mt-3 pr-6'>
                     <Image
@@ -267,7 +269,7 @@ const Home = () => {
               <div className='text-[#F4EEEE]'>
                 <div className='bg-[#566955] rounded-[30.16px] pt-6 pl-6 flex flex-col usecase_arrange w-full'>
                   <div>
-                    <h3 className='text-4xl font-bold pr-6'>
+                    <h3 className='text-2xl sm:text-3xl font-bold pr-6'>
                       Customer Support
                     </h3>
                     {csUseCases.map((item, index) => (
@@ -283,7 +285,7 @@ const Home = () => {
                     ))}
                   </div>
 
-                  <div className='w-full flex justify-end'>
+                  <div className=' flex justify-end'>
                     <Image
                       src={'/images/image3.png'}
                       alt='cellphone'
@@ -294,11 +296,11 @@ const Home = () => {
                 </div>
 
                 <div className='bg-[#2C3D37] rounded-[30.16px] pt-6 pl-6 mt-5'>
-                  <h3 className='text-4xl font-bold pr-6'>
+                  <h3 className='text-2xl sm:text-3xlfont-bold pr-6'>
                     Operations & Logistics
                   </h3>
                   <div className='flex flex-col usecase_arrange w-full'>
-                    <div>
+                    <div className=''>
                       {operationsUseCases.map((item, index) => (
                         <div key={index} className='flex gap-1 mt-3 pr-6'>
                           <Image
@@ -312,7 +314,7 @@ const Home = () => {
                       ))}
                     </div>
 
-                    <div className='mt-5 w-full flex justify-end'>
+                    <div className='mt-5 flex justify-end'>
                       <Image
                         src={'/images/image4.png'}
                         alt='cellphone'
