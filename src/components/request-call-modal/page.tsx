@@ -8,14 +8,14 @@ import { toast } from 'react-toastify';
 type RequestCallModalProps = {
   show: boolean;
   onClose: () => void;
-  phoneNumber: string;
+  PhoneNumber: string;
   countryCode: string;
 };
 
 type FormData = {
-  name: string;
-  email: string;
-  phoneNumber: string;
+  UserName: string;
+  Email: string;
+  PhoneNumber: string;
   countryCode: string;
 };
 
@@ -24,37 +24,32 @@ const GOOGLE_SHEETS_URL = process.env.NEXT_PUBLIC_GOOGLE_SHEETS_URL!;
 const RequestCallModal = ({
   onClose,
   show,
-  phoneNumber,
+  PhoneNumber,
   countryCode,
 }: RequestCallModalProps) => {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState<FormData>({
-    name: '',
-    email: '',
-    phoneNumber,
+    UserName: '',
+    Email: '',
+    PhoneNumber,
     countryCode,
   });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
-  };
-
-  const disableSubmit = !formData.name || !formData.email || loading;
+  const disableSubmit = !formData.UserName || !formData.Email || loading;
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!formData.name || !formData.email) return;
+    if (!formData.UserName || !formData.Email) return;
     setLoading(true);
 
     const fullPhoneNumber = `${
       formData.countryCode
-    }${formData.phoneNumber.replace(/\D/g, '')}`;
+    }${formData.PhoneNumber.replace(/\D/g, '')}`;
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { countryCode: _, ...dataWithoutCountryCode } = formData;
 
     const payload = {
       ...dataWithoutCountryCode,
-      phoneNumber: fullPhoneNumber,
+      PhoneNumber: fullPhoneNumber,
     };
     const params = new URLSearchParams(payload);
     try {
@@ -97,8 +92,10 @@ const RequestCallModal = ({
           type='text'
           name='name'
           required
-          value={formData.name}
-          onChange={handleInputChange}
+          value={formData.UserName}
+          onChange={(e) =>
+            setFormData((prev) => ({ ...prev, UserName: e.target.value }))
+          }
           placeholder='Enter your name'
           className='bg-[#DEDEDE] outline-none w-full h-[58px] rounded-[16px] placeholder:text-[#1E1E1E33] px-3 py-2 mt-10 text-[16px] sm:text-xl sm:font-medium'
         />
@@ -106,8 +103,10 @@ const RequestCallModal = ({
           type='email'
           name='email'
           required
-          value={formData.email}
-          onChange={handleInputChange}
+          value={formData.Email}
+          onChange={(e) =>
+            setFormData((prev) => ({ ...prev, Email: e.target.value }))
+          }
           placeholder='Enter your email'
           className='bg-[#DEDEDE] outline-none w-full h-[58px] rounded-[16px] placeholder:text-[#1E1E1E33] px-3 py-2 mt-8 text-[16px] sm:text-xl sm:font-medium'
         />
