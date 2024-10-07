@@ -13,7 +13,7 @@ type RequestCallModalProps = {
 };
 
 type FormData = {
-  UserName: string;
+  CustomerName: string;
   Email: string;
   PhoneNumber: string;
   countryCode: string;
@@ -29,16 +29,16 @@ const RequestCallModal = ({
 }: RequestCallModalProps) => {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState<FormData>({
-    UserName: '',
+    CustomerName: '',
     Email: '',
     PhoneNumber,
     countryCode,
   });
 
-  const disableSubmit = !formData.UserName || !formData.Email || loading;
+  const disableSubmit = !formData.CustomerName || !formData.Email || loading;
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!formData.UserName || !formData.Email) return;
+    if (!formData.CustomerName || !formData.Email) return;
     setLoading(true);
 
     const fullPhoneNumber = `${
@@ -92,9 +92,9 @@ const RequestCallModal = ({
           type='text'
           name='name'
           required
-          value={formData.UserName}
+          value={formData.CustomerName}
           onChange={(e) =>
-            setFormData((prev) => ({ ...prev, UserName: e.target.value }))
+            setFormData((prev) => ({ ...prev, CustomerName: e.target.value }))
           }
           placeholder='Enter your name'
           className='bg-[#DEDEDE] outline-none w-full h-[58px] rounded-[16px] placeholder:text-[#1E1E1E33] px-3 py-2 mt-10 text-[16px] sm:text-xl sm:font-medium'
