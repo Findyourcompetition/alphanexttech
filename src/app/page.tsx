@@ -102,7 +102,7 @@ const Home = () => {
                 <Image
                   src={selectedCountry.flag}
                   alt={`${selectedCountry.country} flag`}
-                  width={35}
+                  width={32}
                   height={24}
                   className='object-cover'
                 />
@@ -156,8 +156,8 @@ const Home = () => {
                         <Image
                           src={item.flag}
                           alt={`${item.country} flag`}
-                          width={35}
-                          height={24}
+                          width={22}
+                          height={16}
                           className='object-cover'
                         />
                       </div>

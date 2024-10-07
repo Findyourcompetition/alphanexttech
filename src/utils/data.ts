@@ -33,6 +33,11 @@ export const packages = [
 
 export const countryCodes = [
   {
+    flag: '/images/uae.png',
+    code: '+971',
+    country: 'United Arab Emirates',
+  },
+  {
     flag: '/images/new-zealand.png',
     code: '+64',
     country: 'New zealand',
