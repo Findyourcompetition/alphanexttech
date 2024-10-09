@@ -28,6 +28,7 @@ const RequestCallModal = ({
   countryCode,
 }: RequestCallModalProps) => {
   const [loading, setLoading] = useState(false);
+
   const [formData, setFormData] = useState<FormData>({
     CustomerName: '',
     Email: '',
