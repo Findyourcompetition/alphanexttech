@@ -19,8 +19,6 @@ type FormData = {
   countryCode: string;
 };
 
-const GOOGLE_SHEETS_URL = process.env.NEXT_PUBLIC_GOOGLE_SHEETS_URL!;
-
 const RequestCallModal = ({
   onClose,
   show,
@@ -42,35 +40,31 @@ const RequestCallModal = ({
     if (!formData.CustomerName || !formData.Email) return;
     setLoading(true);
 
-    const fullPhoneNumber = `${
-      formData.countryCode
-    }${formData.PhoneNumber.replace(/\D/g, '')}`;
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { countryCode: _, ...dataWithoutCountryCode } = formData;
-
-    const payload = {
-      ...dataWithoutCountryCode,
-      PhoneNumber: fullPhoneNumber,
-    };
-    const params = new URLSearchParams(payload);
     try {
-      const response = await fetch(GOOGLE_SHEETS_URL, {
+      const response = await fetch('/api/submit', {
         method: 'POST',
-        body: params,
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
+          'Content-Type': 'application/json',
         },
+        body: JSON.stringify({
+          name: formData.CustomerName,
+          email: formData.Email,
+          phoneNumber: formData.PhoneNumber,
+          countryCode: formData.countryCode,
+        }),
       });
+
       const result = await response.json();
-      console.log(result, 'response');
-      if (result.result === 'success') {
+
+      if (result.success) {
         toast.success('Your details have been submitted successfully');
         onClose();
       } else {
         toast.error('Failed to submit your details');
       }
     } catch (error) {
-      console.error('Error submitting your email', error);
+      console.error('Error submitting details:', error);
+      toast.error('Failed to submit your details');
     } finally {
       setLoading(false);
     }
