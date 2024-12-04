@@ -19,8 +19,6 @@ type FormData = {
   countryCode: string;
 };
 
-const GOOGLE_SHEETS_URL = process.env.NEXT_PUBLIC_GOOGLE_SHEETS_URL!;
-
 const RequestCallModal = ({
   onClose,
   show,
